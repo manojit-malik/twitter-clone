@@ -1,14 +1,11 @@
 package com.twitter.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
 @Data
+@Table(name = "likes")
 public class Like {
 	
 	@Id
@@ -20,10 +17,5 @@ public class Like {
 	
 	@ManyToOne
 	private Tweet tweet;
-	
-	
-	
-	
-	
-	
+
 }

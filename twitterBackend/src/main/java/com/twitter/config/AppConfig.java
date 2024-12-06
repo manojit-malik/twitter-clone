@@ -23,26 +23,26 @@ import jakarta.servlet.http.HttpServletRequest;
 @Configuration
 @EnableWebSecurity
 public class AppConfig {
-	
+
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		
+
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and()
-		.authorizeHttpRequests(Authorize->Authorize.requestMatchers("/api/**").authenticated()
-				.anyRequest().permitAll()
+				.and()
+				.authorizeHttpRequests(Authorize->Authorize.requestMatchers("/api/**").authenticated()
+						.anyRequest().permitAll()
 				).addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
-		.csrf().disable()
-		.cors().configurationSource(corsConfigurationSourse()).and()
-		.httpBasic().and().formLogin();
-		
+				.csrf().disable()
+				.cors().configurationSource(corsConfigurationSourse()).and()
+				.httpBasic().and().formLogin();
+
 		return http.build();
 	}
 
 	private CorsConfigurationSource corsConfigurationSourse() {
 
 		return new CorsConfigurationSource() {
-			
+
 			@Override
 			public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
 				CorsConfiguration cfg = new CorsConfiguration();
@@ -52,17 +52,17 @@ public class AppConfig {
 				cfg.setAllowedHeaders(Collections.singletonList("*"));
 				cfg.setExposedHeaders(List.of("Authorization"));
 				cfg.setMaxAge(3600L);
-				
+
 				return null;
 			}
 		};
-		
+
 	}
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder () {
 		return new BCryptPasswordEncoder();
 	}
-	
-	
+
+
 }
