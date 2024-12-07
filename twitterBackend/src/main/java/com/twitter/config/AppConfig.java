@@ -30,8 +30,8 @@ public class AppConfig {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 				.authorizeHttpRequests(Authorize->Authorize.requestMatchers("/api/**").authenticated()
-						.anyRequest().permitAll()
-				).addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
+						.anyRequest().permitAll())
+				.addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
 				.csrf().disable()
 				.cors().configurationSource(corsConfigurationSourse()).and()
 				.httpBasic().and().formLogin();
