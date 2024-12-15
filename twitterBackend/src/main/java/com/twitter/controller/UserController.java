@@ -27,7 +27,7 @@ public class UserController {
         User user = userService.findUserProfileByJwt(jwt);
         UserDto userDto = UserDtoMapper.toUserDto(user);
 
-        userDto.setReg_user(true);
+        userDto.setReq_user(true);
 
         return new ResponseEntity<UserDto>(userDto, HttpStatus.ACCEPTED);
     }
@@ -42,7 +42,7 @@ public class UserController {
 
         UserDto userDto = UserDtoMapper.toUserDto(user);
 
-        userDto.setReg_user(UserUtil.isReqUser(reqUser, user));
+        userDto.setReq_user(UserUtil.isReqUser(reqUser, user));
         userDto.setFollowed(UserUtil.isFollowedByReqUser(reqUser, user));
         return new ResponseEntity<UserDto>(userDto, HttpStatus.ACCEPTED);
     }
