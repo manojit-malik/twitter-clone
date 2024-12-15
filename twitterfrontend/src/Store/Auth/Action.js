@@ -3,6 +3,7 @@ import {
   GET_USER_PROFILE_SUCCESS,
   LOGIN_USER_FAILURE,
   LOGIN_USER_SUCCESS,
+  LOGOUT,
   REGISTER_USER_FAILURE,
   REGISTER_USER_SUCCESS,
 } from "./ActionType";
@@ -33,6 +34,7 @@ export const registerUser = (registerData) => async (dispatch) => {
       `${API_BASE_URL}/auth/signup`,
       registerData
     );
+    console.log("SSSSSSSSSSSSSIIIIIIIIIIGNUUUUPPPPP")
     console.log("signup user ", data);
     if (data.jwt) {
       localStorage.setItem("jwt", data.jwt);
@@ -61,5 +63,14 @@ export const getUserProfile = (jwt) => async (dispatch) => {
     console.log("error", error);
     dispatch({ type: GET_USER_PROFILE_FAILURE, payload: error.message });
   }
+};
+
+export const logout = () => async (dispatch) => {
+ 
+    
+    localStorage.removeItem("jwt")
+
+    dispatch({ type: LOGOUT, payload: null });
+     
 };
 

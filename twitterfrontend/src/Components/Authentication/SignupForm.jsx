@@ -12,6 +12,7 @@ import {
   import { blue } from "@mui/material/colors";
   import { useDispatch } from 'react-redux';
 import { registerUser } from "../../Store/Auth/Action";
+import { useNavigate } from "react-router-dom";
   
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Full Name is required"),
@@ -35,8 +36,10 @@ import { registerUser } from "../../Store/Auth/Action";
     { value: 11, label: "November" },
     { value: 12, label: "December" },
   ];
+
   
   const SignupForm = () => {
+    const navigate = useNavigate();
     const [days, setDays] = useState(Array.from({ length: 31 }, (_, i) => i + 1));
     const dispatch = useDispatch();
     const formik = useFormik({
@@ -58,6 +61,12 @@ import { registerUser } from "../../Store/Auth/Action";
         console.log("Form values:", values);
 
         dispatch(registerUser(values))
+        .then(() => {
+          navigate('/home');
+        })
+        .catch((error) => {
+          console.error("Registration failed: ", error);
+        });
         console.log("form value: ", values);
       },
     });

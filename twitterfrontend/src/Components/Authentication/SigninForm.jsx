@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { blue } from "@mui/material/colors";
 import { useDispatch } from 'react-redux';
 import { loginUser } from "../../Store/Auth/Action";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -16,7 +17,9 @@ const validationSchema = Yup.object().shape({
   // .required("Password is required"),
 });
 
+
 const SigninForm = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -26,6 +29,13 @@ const SigninForm = () => {
     validationSchema,
     onSubmit: (values) => {
       dispatch(loginUser(values))
+      .then(() => {
+        navigate('/home');
+      })
+      .catch((error) => {
+        console.error("Login failed: ", error);
+      });
+
       console.log("form value: ", values);
     },
   });

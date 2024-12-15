@@ -7,7 +7,8 @@ import {
     LOGIN_USER_FAILURE, 
     REGISTER_USER_REQUEST, 
     REGISTER_USER_SUCCESS, 
-    REGISTER_USER_FAILURE 
+    REGISTER_USER_FAILURE, 
+    LOGOUT
   } from './ActionType';
   
   const initialState = {
@@ -30,6 +31,9 @@ import {
   
       case GET_USER_PROFILE_SUCCESS:
         return { ...state, loading: false, error: null, user: action.payload };
+
+        case LOGOUT:
+            return initialState
   
       case LOGIN_USER_FAILURE:
       case REGISTER_USER_FAILURE:
