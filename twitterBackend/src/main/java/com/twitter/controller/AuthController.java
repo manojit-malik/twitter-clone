@@ -45,13 +45,13 @@ public class AuthController {
         User isEmailExist = userRepository.findByEmail(email);
 
         if (isEmailExist!=null) {
-            throw new UserException("Email is already used another user");
+            throw new UserException("Email is already used with another user");
         }
 
         User createdUser = new User();
         createdUser.setEmail(email);
-        createdUser.setPassword(passwordEncoder.encode(password));
         createdUser.setFullName(fullName);
+        createdUser.setPassword(passwordEncoder.encode(password));
         createdUser.setBirthDate(birthDate);
         createdUser.setVerification(new Verified());
 

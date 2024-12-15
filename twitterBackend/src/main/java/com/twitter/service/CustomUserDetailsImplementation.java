@@ -23,7 +23,7 @@ public class CustomUserDetailsImplementation implements UserDetailsService {
         User user = userRepository.findByEmail(username);
 
         if (user==null  || user.isLogin_with_google()) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException("User not found with email: " + username);
         }
         List <GrantedAuthority> authorities = new ArrayList<>();
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);

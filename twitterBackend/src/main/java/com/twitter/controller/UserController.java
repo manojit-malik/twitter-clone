@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.ResponseEntity.ok;
+
 @RestController
 @RequestMapping("api/users")
 public class UserController {
@@ -29,7 +31,8 @@ public class UserController {
 
         userDto.setReq_user(true);
 
-        return new ResponseEntity<UserDto>(userDto, HttpStatus.ACCEPTED);
+
+        return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
     }
 
     @GetMapping("/{userId}")
