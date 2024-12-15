@@ -8,13 +8,21 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../Store/Auth/Action";
 
 const Navigation = () => {
+
+  const dispatch = useDispatch()
+
   const navigate = useNavigate();
+
   const handleLogout = () => {
     console.log("Logout");
     handleClose();
+    dispatch(logout())
   };
+  const { auth } = useSelector((store) => store);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -77,11 +85,11 @@ const Navigation = () => {
               Wrap
               sx={{ width: "160px", overflow: "hidden", whiteSpace: "nowrap" }}
             >
-              <span>Manojit Malik</span>
+              <p>{auth.user?.fullName}</p>
             </Typography>
 
             <Typography variant="body2" className="opacity-70">
-              <span>@i_mnog</span>
+              <span>@{auth.user?.fullName.split(" ").join("_").toLowerCase()}</span>
             </Typography>
           </div>
 
