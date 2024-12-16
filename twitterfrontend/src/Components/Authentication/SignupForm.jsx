@@ -67,6 +67,7 @@ import { useNavigate } from "react-router-dom";
         .catch((error) => {
           console.error("Registration failed: ", error);
         });
+
         console.log("form value: ", values);
       },
     });

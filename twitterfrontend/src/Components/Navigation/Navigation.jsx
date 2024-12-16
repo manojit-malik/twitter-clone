@@ -13,6 +13,8 @@ import { logout } from "../../Store/Auth/Action";
 
 const Navigation = () => {
 
+  const { auth } = useSelector((store) => store);
+
   const dispatch = useDispatch()
 
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ const Navigation = () => {
     handleClose();
     dispatch(logout())
   };
-  const { auth } = useSelector((store) => store);
+  
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -85,10 +87,10 @@ const Navigation = () => {
               Wrap
               sx={{ width: "160px", overflow: "hidden", whiteSpace: "nowrap" }}
             >
-              <p>{auth.user?.fullName}</p>
+              <p className="flex justify-start">{auth.user?.fullName}</p>
             </Typography>
 
-            <Typography variant="body2" className="opacity-70">
+            <Typography variant="body2" className="flex justify-start opacity-70">
               <span>@{auth.user?.fullName.split(" ").join("_").toLowerCase()}</span>
             </Typography>
           </div>

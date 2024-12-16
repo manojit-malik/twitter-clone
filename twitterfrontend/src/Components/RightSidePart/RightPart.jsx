@@ -19,7 +19,8 @@ const RightPart = () => {
       <div className="relative flex items-center">
         <input
           type="text"
-          className="py-3 rounded-full text-gray-500 w-full pl-12"
+          label="Search"
+          className="py-3 rounded-full text-gray-500 w-full pl-12 border-2"
         />
 
         <div className="absolute top-0 left-0  pl-3 pt-3">
@@ -31,32 +32,39 @@ const RightPart = () => {
         />
       </div>
 
-      <section className="my-5 ">
-        <h1 className="text-xl font-bold">Get Verified</h1>
-        <h1 className="font-bold my-2">Subscribe to Unlock new Features</h1>
-        <Button
+      <section className="my-5 border-2 border-gray-200 rounded-lg p-5">
+        <h1 className="flex justify-starttext-xl font-bold">Get Verified</h1>
+        <h1 className="flex justify-start font-bold my-2">Subscribe to Unlock new Features</h1>
+        <div className="flex justify-start">
+        <Button 
           variant="contained"
           sx={{ padding: "10px", paddingX: "20px", borderRadius: "25px" }}
           onClick={handleOpenSubscriptionModel }
         >
           Get Verified
         </Button>
+        </div>
+        
       </section>
 
-      <section className="mt-7 space-y-5">
-        <h1 className="font-bold text-xl py-1 ">What's happening</h1>
+      <section className="mt-7 space-y-5 border-2 border-gray-200 rounded-lg p-5">
+        <h1 className="flex justify-start font-bold text-xl py-1 ">What's happening</h1>
 
-        <div>
-          <p className="text-sm">FIFA Women's World Cup · LIVE</p>
-          <p className="font-bold">Philipines vs Switzerland</p>
-        </div>
+
+        <div className="flex justify-between w-full">
+            <div>
+              <p>FIFA Women's World Cup · LIVE</p>
+              <p className="flex justify-start font-bold">Philipines vs Switzerland</p>
+            </div>
+            <MoreHorizIcon />
+          </div>
 
         {[1, 1, 1].map((item) => (
           <div className="flex justify-between w-full">
             <div>
               <p>Entertainment · Trending</p>
-              <p className="font-bold">#TheMarvels</p>
-              <p>76.8k Tweets</p>
+              <p className="flex justify-start font-bold">#TheMarvels</p>
+              <p className="flex justify-start">76.8k Tweets</p>
             </div>
             <MoreHorizIcon />
           </div>

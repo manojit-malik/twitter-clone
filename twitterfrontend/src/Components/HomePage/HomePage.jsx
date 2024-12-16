@@ -3,10 +3,9 @@ import React from "react";
 import Navigation from "../Navigation/Navigation";
 import HomeSection from "../HomeSection/HomeSection";
 import RightPart from "../RightSidePart/RightPart";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Profile from "../Profile/Profile";
 import TweetDetails from "../TweetDetails/TweetDetails";
-import Authentication from "../Authentication/Authentication";
 
 const HomePage = () => {
   return (
@@ -15,15 +14,18 @@ const HomePage = () => {
         <Navigation />
       </Grid>
 
-      <Grid item xs={12} lg={6} className="px-5 lg:px-9 hidden lg:block w-full relative">
+      <Grid
+        item
+        xs={12}
+        lg={6}
+        className="px-5 lg:px-9 hidden lg:block w-full relative"
+      >
         <Routes>
-          {/* <Route path="/" element={<HomeSection />} />  */}
-          <Route path="/" element={<Authentication />} /> 
-          <Route path="/home" element={<HomeSection />} /> 
-          <Route path="/profile/:id" element={<Profile />} /> 
-          <Route path="/tweet/:id" element={<TweetDetails />} /> 
+          <Route path="/home" element={<HomeSection />} />
+          <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/tweet/:id" element={<TweetDetails />} />
         </Routes>
-        
       </Grid>
 
       <Grid item xs={0} lg={3} className="hidden lg:block w-full relative">

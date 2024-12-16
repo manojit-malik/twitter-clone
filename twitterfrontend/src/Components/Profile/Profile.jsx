@@ -42,7 +42,7 @@ const Profile = () => {
       </section>
 
       <section>
-        <img className="w-[100%] h-[50rem-] object-cover" src={PfpCover} />
+        <img className="w-[100%] h-[50rem-] object-cover" src={PfpCover} alt=''/>
       </section>
 
       <section className="pl-6">
@@ -78,13 +78,17 @@ const Profile = () => {
             {true && <img className="ml-2 w-5 h-5" src={VerifiedLogo} alt="" />}
           </div>
         </div>
+        <div className="flex items-center">
         <h1 className="text-gray-500">@i_mnog</h1>
-
+        
+        </div>
+        
         <div className="mt-2 space-y-3">
-          <p>
-            Hello I am Manojit Malik and I am maker of this twitter(X) clone
-            application
-          </p>
+          
+        <p className="text-left"> {/* Added text-left class to align the text to the left */}
+      Hello I am Manojit Malik and I am maker of this twitter(X) clone
+              application
+    </p>
 
           <div className="py-1 flex space-x-5">
             <div className="flex items-center text-gray-500">
