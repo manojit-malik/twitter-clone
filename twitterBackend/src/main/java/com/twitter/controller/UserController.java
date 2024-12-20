@@ -64,7 +64,7 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<UserDto> searchUser (@RequestBody User req ,
+    public ResponseEntity<UserDto> updateUser (@RequestBody User req ,
                                                      @RequestHeader("Authorization") String jwt)
             throws UserException {
 
@@ -77,7 +77,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}/follow")
-    public ResponseEntity<UserDto> searchUser (@PathVariable Long userId,
+    public ResponseEntity<UserDto> followUser (@PathVariable Long userId,
                                                @RequestHeader("Authorization") String jwt)
             throws UserException {
 

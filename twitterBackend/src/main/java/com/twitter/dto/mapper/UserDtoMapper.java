@@ -21,6 +21,7 @@ public class UserDtoMapper {
         userDto.setFollowing(toUserDtos(user.getFollowings()));
         userDto.setLogin_with_google(user.isLogin_with_google());
         userDto.setLocation(user.getLocation());
+        userDto.setWebsite(user.getWebsite());
 //        userDto.setVerified(false);
 
         return userDto;
@@ -34,6 +35,7 @@ public class UserDtoMapper {
             userDto.setEmail(user.getEmail());
             userDto.setFullName(user.getFullName());
             userDto.setImage(user.getImage());
+            userDto.setWebsite(user.getWebsite());
             userDtos.add(userDto);
         }
         return userDtos;
