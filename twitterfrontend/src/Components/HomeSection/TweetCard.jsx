@@ -1,4 +1,4 @@
-import React , { useState } from "react";
+import React, { useState } from "react";
 import RepeatIcon from "@mui/icons-material/Repeat";
 import { Avatar, Typography } from "@mui/material";
 import UserImg from "../../Media/User.jpeg";
@@ -17,22 +17,25 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import { FavoriteOutlined } from "@mui/icons-material";
 import ReplyModel from "./ReplyModel";
+import { useDispatch, useSelector } from "react-redux";
+import { createReTweet, likeTweet } from "../../Store/Tweet/Action";
 
-const TweetCard = () => {
+const TweetCard = ({ item }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { auth } = useSelector(store=>store);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
   const [openReplyModel, setOpenReplyModel] = useState(false);
   const handleOpenReplyModel = (event) => {
-    event.stopPropagation();
     setOpenReplyModel(true);
-  }
+  };
   const handleCloseReplyModel = (event) => {
-    event.stopPropagation();
     setOpenReplyModel(false);
-  }
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -46,12 +49,17 @@ const TweetCard = () => {
   };
 
   const handleCreateRetweet = () => {
+    dispatch(createReTweet(item?.id));
     console.log("Create retweet");
   };
 
   const handleLikeRetweet = () => {
+    dispatch(likeTweet(item?.id));
     console.log("Like Tweet");
   };
+
+  const userName =
+    item?.user?.fullName.split(" ").join("_").toLowerCase() + item?.user?.id;
 
   return (
     <React.Fragment>
@@ -59,28 +67,30 @@ const TweetCard = () => {
             <RepeatIcon/>
             <p>You Retweet</p>
         </div> */}
-
       <div className="flex space-x-5">
         <Avatar
-          onClick={() => navigate(`/profile/${6}`)}
+          onClick={() => navigate(`/profile/${item?.user?.id}`)}
           className="cursor-pointer"
           alt="UserImage"
-          src={UserImg}
+          src={auth.user?.image}
         />
 
         <div className="w-full">
           <div className="flex justify-between items-center">
-            <div className="flex cursor-pointer items-center space-x-2">
+            <div
+              onClick={() => navigate(`/profile/${item?.user?.id}`)}
+              className="flex cursor-pointer items-center space-x-2"
+            >
               <Typography
                 Wrap
                 sx={{ overflow: "hidden", whiteSpace: "nowrap" }}
                 className="font-semibold"
               >
-                <span>Manojit Malik</span>
+                <span>{item?.user?.fullName}</span>
               </Typography>
 
               <Typography variant="body2" className="text-gray-600">
-                <span>@i_mnog . 2m</span>
+                <span>@{userName} . 2m</span>
               </Typography>
               <img className="ml-2 w-5 h-5" src={VerifiedLogo} alt="" />
             </div>
@@ -108,14 +118,16 @@ const TweetCard = () => {
               </Menu>
             </div>
           </div>
-          <div className="mt-2" onClick={() => navigate(`/tweet/${3}`)}>
-            <div className="cursor-pointer">
-              <p className="mb-2 p-0">
-                Keep Going for Twitter clone using ReactJS and SpringBoot.
-              </p>
+          <div className="mt-2">
+            <div
+              onClick={() => navigate(`/tweet/${item?.id}`)}
+              className="cursor-pointer"
+            >
+              <p className="flex justify-start mb-2 p-0">{item?.content}</p>
               <img
-                className="w-[28rem] border border-gray-400 p-5 rounded-md"
-                src={BatmanImage}
+                className="w-[28rem] rounded-md"
+                src={item?.image}
+
                 alt=""
               />
             </div>
@@ -126,7 +138,7 @@ const TweetCard = () => {
                   className="cursor-pointer"
                   onClick={handleOpenReplyModel}
                 />
-                <p>43</p>
+                <p>{item?.totalReplies}</p>
               </div>
 
               <div
@@ -138,26 +150,26 @@ const TweetCard = () => {
                   onClick={handleCreateRetweet}
                   className="cursor-pointer"
                 />
-                <p>54</p>
+                <p>{item?.totalRetweets}</p>
               </div>
 
               <div
                 className={`${
-                  true ? "text-pink-600" : "text-gray-600"
+                  item?.liked ? "text-pink-600" : "text-gray-600"
                 } space-x-3 flex items-center`}
               >
-                {true ? (
-                  <FavoriteIcon
-                    onClick={handleLikeRetweet}
-                    className="cursor-pointer"
-                  />
-                ) : (
+                {item?.like ? (
                   <FavoriteOutlined
                     onClick={handleLikeRetweet}
                     className="cursor-pointer"
                   />
+                ) : (
+                  <FavoriteIcon
+                    onClick={handleLikeRetweet}
+                    className="cursor-pointer"
+                  />
                 )}
-                <p>54</p>
+                <p>{item?.totalLikes}</p>
               </div>
 
               <div className="space-x-3 flex items-center text-gray-600">
@@ -179,9 +191,12 @@ const TweetCard = () => {
         </div>
       </div>
 
-      <section>
-      <ReplyModel open={openReplyModel} handleClose={handleCloseReplyModel} />
-
+      <section className="mb-4">
+        <ReplyModel
+          item={item}
+          open={openReplyModel}
+          handleClose={handleCloseReplyModel}
+        />
       </section>
     </React.Fragment>
   );

@@ -14,15 +14,16 @@ import { logout } from "../../Store/Auth/Action";
 const Navigation = () => {
 
   const { auth } = useSelector((store) => store);
-
   const dispatch = useDispatch()
-
   const navigate = useNavigate();
+
+  const userName = auth.user?.fullName.split(" ").join("_").toLowerCase()+auth.user?.id;
 
   const handleLogout = () => {
     console.log("Logout");
     handleClose();
     dispatch(logout())
+    navigate(`/home`);
   };
   
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -54,7 +55,7 @@ const Navigation = () => {
               className="cursor-pointer flex space-x-3 items-center"
               onClick={() =>
                 item.title === "Profile"
-                  ? navigate(`/profile/${6}`)
+                  ? navigate(`/profile/${userName}`)
                   : navigate(item.path)
               }
             >
@@ -81,7 +82,7 @@ const Navigation = () => {
 
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <Avatar alt="UserImage" src={UserImg} />
+          <Avatar alt="UserImage" src={auth.user?.image} />
           <div>
             <Typography
               Wrap
@@ -91,7 +92,7 @@ const Navigation = () => {
             </Typography>
 
             <Typography variant="body2" className="flex justify-start opacity-70">
-              <span>@{auth.user?.fullName.split(" ").join("_").toLowerCase()}</span>
+              <span>@{auth.user?.fullName.split(" ").join("_").toLowerCase()+auth.user?.id}</span>
             </Typography>
           </div>
 

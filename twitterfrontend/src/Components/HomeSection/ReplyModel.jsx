@@ -12,6 +12,8 @@ import ImageIcon from "@mui/icons-material/Image";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import TagFacesIcon from "@mui/icons-material/TagFaces";
 import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import { createTweetReply } from "../../Store/Tweet/Action";
 
 const style = {
   position: "absolute",
@@ -27,14 +29,17 @@ const style = {
   borderRadius: 4,
 };
 
-const ReplyModel = ({handleClose , open}) => {
+const ReplyModel = ({handleClose , open, item}) => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [uploadingImage, setUploadingImage] = React.useState(false);
   const [selectedImage, setSelectedImage] = useState("");
 
   const handleSubmit = (values) => {
+    dispatch(createTweetReply(values))
+    handleClose();
     console.log("handle submit", values);
   };
 
@@ -42,9 +47,9 @@ const ReplyModel = ({handleClose , open}) => {
     initialValues: {
       content: "",
       image: "",
-      tweetId: 5,
+      tweetId: item?.id,
     },
-    onSubmit: handleSubmit,
+    onSubmit: handleSubmit
   });
 
   const handleSelectImage = (event) => {
@@ -54,6 +59,8 @@ const ReplyModel = ({handleClose , open}) => {
     setSelectedImage(imgUrl);
     setUploadingImage(false);
   };
+
+  const userName = item?.user?.fullName.split(" ").join("_").toLowerCase()+item?.user.id;
 
   return (
     <div>
@@ -80,19 +87,19 @@ const ReplyModel = ({handleClose , open}) => {
                     sx={{ overflow: "hidden", whiteSpace: "nowrap" }}
                     className="font-semibold"
                   >
-                    <span>Manojit Malik</span>
+                    <span>{item?.user?.fullName}</span>
                   </Typography>
 
                   <Typography variant="body2" className="text-gray-600">
-                    <span>@i_mnog . 2m</span>
+                    <span>@{userName} . 2m</span>
                   </Typography>
                   <img className="ml-2 w-5 h-5" src={VerifiedLogo} alt="" />
                 </div>
               </div>
-              <div className="mt-2" onClick={() => navigate(`/tweet/${3}`)}>
+              <div className="mt-2" onClick={() => navigate(`/tweet/${item?.id}`)}>
                 <div className="cursor-pointer">
                   <p className="mb-2 p-0">
-                    Keep Going for Twitter clone using ReactJS and SpringBoot.
+                    {item?.content}
                   </p>
                 </div>
               </div>

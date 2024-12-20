@@ -1,19 +1,39 @@
 import { Avatar, Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import UserImg from "../../Media/User.jpeg";
 import { useFormik } from "formik";
+import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from "yup";
 import ImageIcon from "@mui/icons-material/Image";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import TagFacesIcon from "@mui/icons-material/TagFaces";
 import TweetCard from "./TweetCard";
+import { createTweet, getAllTweets } from "../../Store/Tweet/Action";
+import { uploadToCloudnary } from "../../Utils/uploadToCloudnary";
 
 const validationSchema = Yup.object().shape({
   content: Yup.string().required("Tweet text is required"),
 });
 
 const HomeSection = () => {
-  const handleSubmit = (values) => {
+
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+
+  const dispatch = useDispatch();
+  const { tweet } = useSelector(store=>store);
+  const { auth } = useSelector((store) => store);
+
+  console.log("tweet", tweet)
+  
+  useEffect(()=>{
+    dispatch(getAllTweets())
+  },[tweet.like, tweet.retweet])
+
+  const handleSubmit = (values, actions) => {
+    dispatch(createTweet(values));
+    actions.resetForm();
+    setSelectedImage("");
     console.log("values", values);
   };
 
@@ -21,17 +41,16 @@ const HomeSection = () => {
     initialValues: {
       content: "",
       image: "",
+      isTweet:true
     },
     onSubmit: handleSubmit,
     validationSchema,
   });
 
-  const [uploadingImage, setUploadingImage] = useState(false);
-  const [selectedImage, setSelectedImage] = useState("");
-
-  const handleSelectImage = (event) => {
+  const handleSelectImage = async (event) => {
     setUploadingImage(true);
-    const imgUrl = event.target.files[0];
+    // const imgUrl = event.target.files[0];
+    const imgUrl = await uploadToCloudnary(event.target.files[0]);
     formik.setFieldValue("image", imgUrl);
     setSelectedImage(imgUrl);
     setUploadingImage(false);
@@ -42,10 +61,9 @@ const HomeSection = () => {
       <section>
         <h1 className="py-5 text-xl font-bold opacity-90">Home</h1>
       </section>
-
       <section className={`pb-10`}>
         <div className="flex space-x-5">
-          <Avatar alt="User Image" src={UserImg} />
+          <Avatar alt="User Image" src={auth.user?.image} />
 
           <div className="w-full">
             <form onSubmit={formik.handleSubmit}>
@@ -61,10 +79,6 @@ const HomeSection = () => {
                   <span className="text-red-500">{formik.errors.content}</span>
                 )}
               </div>
-
-              {/* <div>
-                            <img src="" alt="" />
-                        </div> */}
 
               <div className="flex justify-between items-center mt-5">
                 <div className="flex space-x-5 items-center">
@@ -99,12 +113,15 @@ const HomeSection = () => {
                 </div>
               </div>
             </form>
+            <div>
+              {selectedImage && <img className="mt-2" src={selectedImage} alt="to upload"/>}
+            </div>
           </div>
         </div>
       </section>
-
+      <hr className="mt-5"/>
       <section className="py-5">
-        {[1,1,1,1,1].map((item) => <TweetCard/> )}
+        {tweet.tweets.map((item) => <TweetCard item={item} /> )}
       </section>
     </div>
   );

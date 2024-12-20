@@ -40,7 +40,7 @@ const ProfileTabs = () => {
             </TabList>
           </Box>
           <TabPanel value="1" sx={{ minHeight: "300px", overflow: "hidden" }}>
-            {[1, 1, 1, 1].map((item, index) => (
+            {[1].map((item, index) => (
               <TweetCard key={index} />
             ))}
           </TabPanel>
